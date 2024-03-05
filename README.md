@@ -1,6 +1,5 @@
 ## How to use the repository:
-
- - For any of the steps if you google how to do them you should get your answer, if you're unsure.
+ - For any of the steps if you google how to do them you should get your answer, if you're unsure. Also can ask the group.
 
  - Obviously keep your code neat and well commented so people know what everything does and what your variables mean.
 
