@@ -31,7 +31,7 @@
 - To work with django you need to create a dedicated folder on your local device.
 - Once in said folder, you will need to create a virtual environment with `python3 -m venv NAME`, e.g. `python3 -m venv myenv`.
 - This virtual environment should be activated before working with Django.
-- To activate, on Unix Shells use `source/myenv/bin/activate`.
+- To activate, on Unix Shells use `source /myenv/bin/activate`.
 - Then, install Django using `pip install Django`.
 - Verify the installation of Django using `django-admin --version`.
 - You can now clone the repository in the same folder you previously created.
