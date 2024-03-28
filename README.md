@@ -52,4 +52,13 @@ These should be added under the list of `INSTALLED_APPS`.
 
 `rest_framework`
 
+#### Testing:
+- You can create your own superuser account to access backend database like so:
+
+- `python manage.py createsuperuser` which will let you create an account.
+
+- You can access the admin panel under localhost:8000/admin, in case port 8000 is occupied on your local device you should get a link in terminal giving you the right address when you run the project using `python manage.py runserver`
+
+- If `python` isn't recognised in your terminal, try `python3`.
+
 
