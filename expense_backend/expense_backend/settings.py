@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'accounts', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,6 +75,8 @@ WSGI_APPLICATION = 'expense_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# USING OUR CUSTOM USER MODEL:
+AUTH_USER_MODEL = 'accounts.AccountModel'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

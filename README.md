@@ -39,3 +39,17 @@
 - To install dependencies from an existing `requirements.txt`, run `pip install -r requirements.txt`.
 - Navigate into the Django project directory and run `python3 manage.py runserver`.
 - This should start a local server for you accessible via `http://localhost:8000` on your web browser.
+
+### Some troubleshooting notes (Sepehr):
+
+- Check that you have the following dependencies installed:
+
+Django REST API Framework - `pip install djangorestframework`
+
+- Check that the dependencies are included in your settings.py:
+
+These should be added under the list of `INSTALLED_APPS`.
+
+`rest_framework`
+
+
