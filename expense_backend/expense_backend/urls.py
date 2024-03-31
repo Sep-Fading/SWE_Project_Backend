@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import AccountModelListCreate
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/accountmodel/', AccountModelListCreate.as_view(),
+         name='accountmodel-list-create'),
 ]

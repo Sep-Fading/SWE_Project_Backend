@@ -52,6 +52,21 @@ These should be added under the list of `INSTALLED_APPS`.
 
 `rest_framework`
 
+You will also need to install CORS as a middleware:
+
+- `pip install django-cors-headers`
+- Then configure settings.py by adding `corsheaders` to `INSTALLED_APPS` and 
+`corseheaders.middleware.CorsMiddleware` to the top of `MIDDLEWARE`.
+
+You can then configure CORS to respond to your locally hosted react server
+by adding this to your settings.py:
+
+```py
+CORS_ALLOWED_ORIGINS = [
+        'http://localhost:3000' # The default react port for local host.
+]
+```
+
 #### Testing:
 - You can create your own superuser account to access backend database like so:
 
@@ -60,5 +75,23 @@ These should be added under the list of `INSTALLED_APPS`.
 - You can access the admin panel under localhost:8000/admin, in case port 8000 is occupied on your local device you should get a link in terminal giving you the right address when you run the project using `python manage.py runserver`
 
 - If `python` isn't recognised in your terminal, try `python3`.
+
+### API Testing:
+
+Try the API by adding and running this from the front end:
+
+```js
+
+// This is simply a js code for testing purposes, implementation
+// of it in React requires the use of States and useEffect functions
+// similar to how it was done with the Weather app project from GUI.
+// replace accountmodel with whatever model you want to access.
+fetch('http://localhost:8000/api/accountmodel/')
+    .then(response => response.json())
+    .then(data => console.log(data));
+
+```
+
+This should generate a JSON in console log accessible via Inspect Element on the browser.
 
 
