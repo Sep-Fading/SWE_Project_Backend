@@ -67,6 +67,35 @@ CORS_ALLOWED_ORIGINS = [
 ]
 ```
 
+### Authentication:
+
+For authentication when it comes to user logins, we are going to use SimpleJWT from the django rest framework.
+
+Install this using : `pip install djangorestframework-simplejwt`.
+
+As per usual, we need to configure settings.py to accomodate our new dependency.
+
+ - Adding JWTAuthentication to DEFAULT_AUTHENTICATION_CLASSES:
+ ```py
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        ),
+    }
+ ```
+ - You need to then configure the urls.py by adding the following:
+ ```py
+    from django.urls import path
+    from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+    urlpatterns = [
+        # Your other URL patterns
+        path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    ]
+
+ ```
+
 #### Testing:
 - You can create your own superuser account to access backend database like so:
 
