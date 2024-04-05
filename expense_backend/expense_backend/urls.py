@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/accountmodel/', AccountModelListCreate.as_view(),
          name='accountmodel-list-create'),
     path('accounts/', include('accounts.urls')),
-     path('api/employeeFormModel/', EmployeeFormView.as_view(),name='employee-form-view'),
+     path('api/employeeformmodel/', EmployeeFormView.as_view(),name='employee-form-view'),
 ]
