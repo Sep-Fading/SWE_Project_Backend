@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, Permiss
 from django.db import models
 
 
+
 # This class extends the BaseUserManager 
 # interface to create regular and super users.
 class AccountManager(BaseUserManager):
@@ -111,3 +112,11 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
 
 
         
+#This model is to contain the information for the employee claim data
+class EmployeeFormModel(models.Model):
+    amount =  models.IntegerField()
+    currency = models.CharField(max_length=100)
+    typeClaim = models.CharField(max_length=100)
+    description = models.CharField(max_length=100)
+    acknowledgement = models.BooleanField()
+
