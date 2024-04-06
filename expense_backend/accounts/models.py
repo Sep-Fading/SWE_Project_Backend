@@ -141,4 +141,16 @@ class EmployeeFormModel(models.Model):
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
-
+    
+#This model is to contain the information for each employee
+class UserInfoModel(models.Model):
+    userID = models.IntegerField(null=True, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    address = models.TextField()
+    account_number = models.CharField(max_length=8)
+    sort_code = models.CharField(max_length=8)
+    tax_code = models.CharField(max_length=100)
+    manager_id = models.IntegerField(null=True, blank=True)  # Assuming some users may not have managers
