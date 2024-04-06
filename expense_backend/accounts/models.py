@@ -114,9 +114,31 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
         
 #This model is to contain the information for the employee claim data
 class EmployeeFormModel(models.Model):
-    amount =  models.IntegerField()
+    # Setting up our permission levels:
+    CLAIM_STATUS = (
+        ('ACCEPTED', 'accepted'),
+        ('REJECTED', 'rejected'),
+        ('PENDING', 'pending'),
+
+    )
+
+    CLAIM_TYPE = (
+        ('TRAVEL', 'travel'),
+        ('MEAL', 'meal'),
+        ('NIGHTSTAY', 'night stay'),
+        ('GIFT', 'gift'),
+
+    )
+
+    claimID = models.AutoField(primary_key=True)
+    userID = models.CharField(max_length=100)
+    lineManagerID = models.CharField(max_length=100)
+    amount =  models.FloatField(default=0.0)
     currency = models.CharField(max_length=100)
-    typeClaim = models.CharField(max_length=100)
+    typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
+                                       default='meal')
     description = models.CharField(max_length=100)
-    acknowledgement = models.BooleanField()
+    acknowledgement = models.BooleanField(default=False)
+    status = models.CharField(max_length=20,choices=CLAIM_STATUS,
+                                       default='PENDING')
 
