@@ -114,9 +114,12 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
         
 #This model is to contain the information for the employee claim data
 class EmployeeFormModel(models.Model):
+    userID = models.CharField(max_length=100)
+    lineManagerID = models.CharField(max_length=100)
     amount =  models.IntegerField()
     currency = models.CharField(max_length=100)
     typeClaim = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     acknowledgement = models.BooleanField()
+    status = models.CharField(max_length=100)
 

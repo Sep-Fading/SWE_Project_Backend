@@ -23,7 +23,7 @@ class EmployeeFormView(APIView):
     serializer_class = EmployeeFormModelSerializer 
   
     def get(self, request): 
-        detail = [ {"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description, "acknowledgement": detail.acknowledgement}  
+        detail = [ {"UserID": detail.userID,"lineManagerId": detail.lineManagerID,"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description, "acknowledgement": detail.acknowledgement, "status": detail.status}  
         for detail in EmployeeFormModel.objects.all()] 
         return Response(detail) 
   
