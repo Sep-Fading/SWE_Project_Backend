@@ -13,6 +13,7 @@ class AccountTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
         data['user_permission'] = self.user.user_permission
+        data['user_email'] = self.user.email
         return data
 
 class AccountTokenObtainPairView(TokenObtainPairView):
