@@ -114,7 +114,7 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
         
 #This model is to contain the information for the employee claim data
 class EmployeeFormModel(models.Model):
-    # Setting up our permission levels:
+    # Setting up claim status and claim types:
     CLAIM_STATUS = (
         ('ACCEPTED', 'accepted'),
         ('REJECTED', 'rejected'),
@@ -131,7 +131,16 @@ class EmployeeFormModel(models.Model):
     )
 
     claimID = models.AutoField(primary_key=True)
-    userID = models.CharField(max_length=100)
+
+    # Foreign Key linking so that userID in this table 
+    # is related with AccountModel.
+    userID = models.ForeignKey(
+            AccountModel,
+            on_delete=models.CASCADE, # Delete from both tables if user is deleted.
+            related_name='claims', # This lets us access a user's claim with user.claims
+    )
+
+
     lineManagerID = models.CharField(max_length=100)
     amount =  models.FloatField(default=0.0)
     currency = models.CharField(max_length=100)
