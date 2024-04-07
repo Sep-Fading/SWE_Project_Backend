@@ -116,10 +116,11 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
 class EmployeeFormModel(models.Model):
     # Setting up claim status and claim types:
     CLAIM_STATUS = (
-        ('ACCEPTED', 'accepted'),
+        ('APPROVED', 'approved'),
         ('REJECTED', 'rejected'),
         ('PENDING', 'pending'),
-
+        ('PROCESSED', 'processed'),
+        ('REJECTEDF', 'rejectedbyfinance')
     )
 
     CLAIM_TYPE = (
