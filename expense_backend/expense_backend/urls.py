@@ -18,6 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import AccountModelListCreate
 from .views import EmployeeFormView
+from .views import ApprovedClaimsListView
+from .views import process_claim_status, rejectf_claim_status
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +28,10 @@ urlpatterns = [
          name='accountmodel-list-create'),
     path('accounts/', include('accounts.urls')),
      path('api/employeeformmodel/', EmployeeFormView.as_view(),name='employee-form-view'),
+     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+       path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+       path('api/approved/', ApprovedClaimsListView.as_view(),name='approved-form-view'),
+    path('process_claim/<int:claim_id>/', process_claim_status, name='process_claim'),
+    path('rejectf_claim/<int:claim_id>/', rejectf_claim_status, name='rejectf_claim'),
 ]
+
