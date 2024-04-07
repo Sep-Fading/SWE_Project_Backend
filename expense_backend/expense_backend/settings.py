@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from django.utils.timezone import timedelta
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'accounts.middleware.JWTAuthenticationMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,6 +98,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
         'USER_ID_FIELD': 'user_id',
+        'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 
@@ -102,6 +107,12 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
         'http://localhost:3000', # Change if yours runs on a different port.
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+FRONTEND_URL = 'http://localhost:3000'
+
+SECURE_SSL_REDIRECT = False
 
 
 # Password validation
