@@ -3,6 +3,7 @@ from accounts.models import AccountModel
 from .serializers import AccountModelSerializer
 from .serializers import EmployeeFormModelSerializer
 from accounts.models import EmployeeFormModel
+from accounts.models import EmployeeFormModel
 
 from django.shortcuts import render 
 from rest_framework.views import APIView 
@@ -34,3 +35,29 @@ class EmployeeFormView(APIView):
             serializer.save() 
             return  Response(serializer.data) 
 
+
+class AcceptClaimView(APIView):
+    def patch(self, request, claim_id):
+        try:
+            claim = EmployeeFormModel.objects.get(claimID=claim_id)
+        except EmployeeFormModel.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        claim.status = 'ACCEPTED'
+        claim.save()
+
+        serializer = EmployeeFormModelSerializer(claim)
+        return Response(serializer.data)
+    
+class RejectClaimView(APIView):
+    def patch(self, request, claim_id):
+        try:
+            claim = EmployeeFormModel.objects.get(claimID=claim_id)
+        except EmployeeFormModel.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        claim.status = 'REJECTED'
+        claim.save()
+
+        serializer = EmployeeFormModelSerializer(claim)
+        return Response(serializer.data)

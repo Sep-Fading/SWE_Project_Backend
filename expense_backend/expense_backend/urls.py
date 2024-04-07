@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import AccountModelListCreate
 from .views import EmployeeFormView
+from .views import AcceptClaimView
+from .views import RejectClaimView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +27,6 @@ urlpatterns = [
          name='accountmodel-list-create'),
     path('accounts/', include('accounts.urls')),
      path('api/employeeformmodel/', EmployeeFormView.as_view(),name='employee-form-view'),
+    path('claims/<int:claim_id>/accept/', AcceptClaimView.as_view(), name='accept-claim'),
+    path('claims/<int:claim_id>/reject/', RejectClaimView.as_view(), name='reject-claim'),
 ]
