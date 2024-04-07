@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'accounts.middleware.JWTAuthenticationMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -106,6 +107,12 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
         'http://localhost:3000', # Change if yours runs on a different port.
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+FRONTEND_URL = 'http://localhost:3000'
+
+SECURE_SSL_REDIRECT = False
 
 
 # Password validation
