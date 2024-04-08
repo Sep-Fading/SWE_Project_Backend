@@ -20,9 +20,9 @@ class EmployeeFormModelSerializer(serializers.ModelSerializer):
 
 #This is the serializer for the UserInfo model.
 class UserInfoModelSerializer(serializers.ModelSerializer):
+    role = serializers.ReadOnlyField()
     class Meta:
         model = UserInfoModel
-        fields = '__all__'
-
+        fields = ['user_id', 'first_name', 'last_name', 'email', 'phone_number', 'address', 'account_number', 'sort_code', 'tax_code', 'manager_id', 'role']
 
 
