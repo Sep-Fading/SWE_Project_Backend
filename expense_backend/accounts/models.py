@@ -106,6 +106,13 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['user_firstname', 'user_lastname']
 
     objects = AccountManager()
+    
+    # Make sure to create a UserInfoModel for the account.
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            UserInfoModel.objects.create(user_id=self)
 
     def __str__(self):
         return self.email
@@ -173,3 +180,9 @@ class UserInfoModel(models.Model):
     sort_code = models.CharField(max_length=8)
     tax_code = models.CharField(max_length=100)
     manager_id = models.IntegerField(null=True, blank=True)  # Assuming some users may not have managers
+
+    @property
+    def role(self):
+        if self.user_id and hasattr(self.user_id, 'user_permission') and self.user_id.user_permission:
+            return self.user_id.user_permission.capitalize()
+        return None

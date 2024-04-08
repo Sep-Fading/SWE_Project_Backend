@@ -131,7 +131,12 @@ def validate_session(request):
                         'userPermission': user_permission,
     })
 
-
+# ---- LOG OUT FUNCTION ----
+def logout_view(request):
+    response = JsonResponse({'message': 'Logged out successfully'})
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+    return response
 
 # ---- API VIEWS FOR ADMIN PAGE ----
 class UserInfoListView(APIView):
