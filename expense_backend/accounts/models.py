@@ -152,14 +152,17 @@ class EmployeeFormModel(models.Model):
 
 
     lineManagerID = models.CharField(max_length=100)
+    dateMade = models.DateField()
     amount =  models.FloatField(default=0.0)
     currency = models.CharField(max_length=100)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=100)
+    receipt = models.ImageField(null=True, blank=True, upload_to="receipts/")
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
+    dateApproved = models.DateField()
     comments = models.CharField(max_length=100,default="")
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):

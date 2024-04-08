@@ -31,9 +31,7 @@ class EmployeeFormView(APIView):
         employee_forms = EmployeeFormModel.objects.all()
         serializer = EmployeeFormModelSerializer(employee_forms, many=True)
         return Response(serializer.data)
-        # detail = [ {"claimID": detail.claimID,"userID": detail.user_id,"lineManagerId": detail.lineManagerID,"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description,"receipt":detail.receipt, "acknowledgement": detail.acknowledgement, "status": detail.status}  
-        # for detail in EmployeeFormModel.objects.all()] 
-        # return Response(detail)
+
 
   
     def post(self, request): 
@@ -50,7 +48,7 @@ class AcceptClaimView(APIView):
         except EmployeeFormModel.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        claim.status = 'ACCEPTED'
+        claim.status = 'APPROVED'
         claim.save()
 
         serializer = EmployeeFormModelSerializer(claim)
