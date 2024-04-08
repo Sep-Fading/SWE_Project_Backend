@@ -2,6 +2,7 @@ from weakref import ref
 from rest_framework.response import Response 
 from rest_framework import status
 from django.conf import settings
+from rest_framework.schemas.coreapi import serializers
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -9,7 +10,9 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.authentication import get_authorization_header
-
+from rest_framework.views import APIView
+from .models import UserInfoModel
+from expense_backend.serializers import UserInfoModelSerializer
 
 # This takes care of serialization of our data from
 # AccountModel. Which is then used by the AccountTokenObtainPairView
@@ -127,3 +130,16 @@ def validate_session(request):
                         'isAuthenticated': True,
                         'userPermission': user_permission,
     })
+
+
+
+# ---- API VIEWS FOR ADMIN PAGE ----
+class UserInfoListView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        if request.user.user_permission != 'ADMIN':
+            return Response({'detail': 'You do not have permission to perform this query.'})
+        
+        user_info_list = UserInfoModel.objects.all()
+        serializer = UserInfoModelSerializer(user_info_list, many=True)
+        return Response(serializer.data)

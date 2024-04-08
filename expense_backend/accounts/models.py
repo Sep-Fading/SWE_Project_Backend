@@ -134,10 +134,11 @@ class EmployeeFormModel(models.Model):
 
     # Foreign Key linking so that userID in this table 
     # is related with AccountModel.
-    userID = models.ForeignKey(
+    user_id = models.ForeignKey(
             AccountModel,
             on_delete=models.CASCADE, # Delete from both tables if user is deleted.
             related_name='claims', # This lets us access a user's claim with user.claims
+            null=True,
     )
 
 
@@ -153,7 +154,15 @@ class EmployeeFormModel(models.Model):
     
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):
-    userID = models.IntegerField(null=True, blank=True)
+
+    # Linked UserInfoModel to AccountModel
+    user_id = models.ForeignKey(
+            AccountModel,
+            on_delete=models.CASCADE,
+            related_name='userinfo',
+    )
+
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()

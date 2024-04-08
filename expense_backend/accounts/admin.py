@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import AccountModel
-
+from .models import UserInfoModel
 # Here we register our user model and handle Django Admin for accounts
 class AccountModelAdmin(BaseUserAdmin):
     model = AccountModel
@@ -36,3 +36,4 @@ class AccountModelAdmin(BaseUserAdmin):
     filter_horizontal=()
 
 admin.site.register(AccountModel, AccountModelAdmin)
+admin.site.register(UserInfoModel)
