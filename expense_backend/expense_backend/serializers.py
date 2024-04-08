@@ -23,6 +23,6 @@ class UserInfoModelSerializer(serializers.ModelSerializer):
     role = serializers.ReadOnlyField()
     class Meta:
         model = UserInfoModel
-        fields = ['user_id', 'first_name', 'last_name', 'email', 'phone_number', 'address', 'account_number', 'sort_code', 'tax_code', 'manager_id', 'role']
+        fields = ['user_id', 'first_name', 'last_name', 'email', 'phone_number', 'address', 'zip_code', 'city', 'country', 'account_number', 'sort_code', 'tax_code', 'manager_id', 'role']
 
 
