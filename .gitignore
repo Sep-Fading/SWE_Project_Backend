@@ -2,7 +2,6 @@
 *.pyc
 *.pyo
 __pycache__/
-*.sqlite3
 *.pyc
 *.pyo
 *.pyd
@@ -10,6 +9,5 @@ __pycache__/
 *.swo
 *.log
 *.bak
-*.db
 *.cache
 *.egg-info/
