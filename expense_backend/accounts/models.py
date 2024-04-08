@@ -110,7 +110,6 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-
         
 #This model is to contain the information for the employee claim data
 class EmployeeFormModel(models.Model):
@@ -130,26 +129,37 @@ class EmployeeFormModel(models.Model):
 
     )
 
+
     claimID = models.AutoField(primary_key=True)
 
     # Foreign Key linking so that userID in this table 
     # is related with AccountModel.
-    userID = models.ForeignKey(
+    user_id = models.ForeignKey(
             AccountModel,
             on_delete=models.CASCADE, # Delete from both tables if user is deleted.
             related_name='claims', # This lets us access a user's claim with user.claims
+            null=True,
+            blank=True,
+            default='',
     )
 
 
-    lineManagerID = models.CharField(max_length=100)
+    lineManagerID = models.CharField(max_length=100, null=True, blank=True)
     amount =  models.FloatField(default=0.0)
     currency = models.CharField(max_length=100)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=100)
+    receipt = models.ImageField(null=True, blank=True, upload_to="receipts/")
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
+    
+    def get_receipt_url(self):
+        if self.receipt and hasattr(self.reciept, 'url'):
+            return self.receipt.url
+        else:
+            return "/static/images/user.jpg"
     
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):

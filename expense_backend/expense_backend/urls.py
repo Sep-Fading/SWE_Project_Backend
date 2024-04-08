@@ -19,10 +19,14 @@ from django.urls import path, include
 from .views import AccountModelListCreate
 from .views import EmployeeFormView
 
+#for uploading image file
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accountmodel/', AccountModelListCreate.as_view(),
          name='accountmodel-list-create'),
     path('accounts/', include('accounts.urls')),
      path('api/employeeformmodel/', EmployeeFormView.as_view(),name='employee-form-view'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

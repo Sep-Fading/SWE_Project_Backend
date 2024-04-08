@@ -23,7 +23,7 @@ class EmployeeFormView(APIView):
     serializer_class = EmployeeFormModelSerializer 
   
     def get(self, request): 
-        detail = [ {"claimID": detail.claimID,"userID": detail.userID,"lineManagerId": detail.lineManagerID,"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description, "acknowledgement": detail.acknowledgement, "status": detail.status}  
+        detail = [ {"claimID": detail.claimID,"userID": detail.user_id,"lineManagerId": detail.lineManagerID,"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description,"receipt":detail.receipt, "acknowledgement": detail.acknowledgement, "status": detail.status}  
         for detail in EmployeeFormModel.objects.all()] 
         return Response(detail) 
   
@@ -33,4 +33,5 @@ class EmployeeFormView(APIView):
         if serializer.is_valid(raise_exception=True): 
             serializer.save() 
             return  Response(serializer.data) 
+        
 

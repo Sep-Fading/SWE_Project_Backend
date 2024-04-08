@@ -16,5 +16,16 @@ class EmployeeFormModelSerializer(serializers.ModelSerializer):
         model = EmployeeFormModel
         fields = '__all__' 
 
+class JSONSerializerField(serializers.Field):
+    def to_representation(self, value):
+        json_data = {}
+        try:
+            json_data = json.loads(value)
+        except ValueError as e:
+            raise e
+        finally:
+            return json_data
 
+    def to_internal_value(self, data):
+        return json.dumps(data)
 
