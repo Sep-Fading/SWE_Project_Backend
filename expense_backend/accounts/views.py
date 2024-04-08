@@ -14,6 +14,9 @@ from rest_framework.views import APIView
 from .models import UserInfoModel
 from expense_backend.serializers import UserInfoModelSerializer
 from django.shortcuts import get_object_or_404
+from expense_backend.serializers import AddressSerializer
+from expense_backend.serializers import BankDetailsSerializer
+from expense_backend.serializers import UserDetailSerializer
 
 # This takes care of serialization of our data from
 # AccountModel. Which is then used by the AccountTokenObtainPairView
@@ -157,3 +160,18 @@ class UserInfoSpecificView(APIView):
         user_info = get_object_or_404(UserInfoModel, user_id=uid)
         serializer = UserInfoModelSerializer(user_info)
         return Response(serializer.data)
+
+# ---- UPDATE INFO ADMIN PAGE ----
+class UpdateUserInfo(APIView):
+    def patch(self, request, uid, format=None):
+        try:
+            user_info = UserInfoModel.objects.get(user_id=uid)
+        except UserInfoModel.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = UserInfoModelSerializer(user_info, data=request.data, partial=True)
+
+        if (serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, stats=status.HTTP_400_BAD_REQUEST)

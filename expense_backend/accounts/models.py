@@ -1,3 +1,4 @@
+from os import walk
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -170,7 +171,6 @@ class UserInfoModel(models.Model):
             related_name='userinfo',
     )
 
-
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -180,7 +180,7 @@ class UserInfoModel(models.Model):
     sort_code = models.CharField(max_length=8)
     tax_code = models.CharField(max_length=100)
     manager_id = models.IntegerField(null=True, blank=True)  # Assuming some users may not have managers
-    zip_code = models.CharField(max_length=6)
+    zip_code = models.CharField(max_length=10)
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
 

@@ -26,3 +26,21 @@ class UserInfoModelSerializer(serializers.ModelSerializer):
         fields = ['user_id', 'first_name', 'last_name', 'email', 'phone_number', 'address', 'zip_code', 'city', 'country', 'account_number', 'sort_code', 'tax_code', 'manager_id', 'role']
 
 
+# Serializers for update details on admin side.
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfoModel;
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'tax_code']
+
+# Serializers for update details on admin side.
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfoModel;
+        fields = ['address', 'zip_code', 'city', 'country']
+
+# Serializers for update details on admin side.
+class BankDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserInfoModel;
+        fields = ['account_number', 'sort_code']
+
