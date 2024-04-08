@@ -50,7 +50,7 @@ class AcceptClaimView(APIView):
         except EmployeeFormModel.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        claim.status = 'ACCEPTED'
+        claim.status = 'APPROVED'
         claim.save()
 
         serializer = EmployeeFormModelSerializer(claim)
