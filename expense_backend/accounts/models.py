@@ -156,6 +156,7 @@ class EmployeeFormModel(models.Model):
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=100)
+    receipt = models.ImageField(null=True, blank=True, upload_to="receipts/")
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
