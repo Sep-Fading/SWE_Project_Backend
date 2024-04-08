@@ -1,0 +1,15 @@
+# Django
+*.pyc
+*.pyo
+__pycache__/
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.log
+*.bak
+*.db
+*.cache
+*.egg-info/
