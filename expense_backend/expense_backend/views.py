@@ -3,7 +3,6 @@ from accounts.models import AccountModel
 from .serializers import AccountModelSerializer
 from .serializers import EmployeeFormModelSerializer
 from accounts.models import EmployeeFormModel
-from accounts.models import EmployeeFormModel
 
 from django.shortcuts import render 
 from rest_framework.views import APIView 
@@ -32,6 +31,9 @@ class EmployeeFormView(APIView):
         employee_forms = EmployeeFormModel.objects.all()
         serializer = EmployeeFormModelSerializer(employee_forms, many=True)
         return Response(serializer.data)
+        # detail = [ {"claimID": detail.claimID,"userID": detail.user_id,"lineManagerId": detail.lineManagerID,"amount": detail.amount,"currency": detail.currency, "typeClaim": detail.typeClaim,"description": detail.description,"receipt":detail.receipt, "acknowledgement": detail.acknowledgement, "status": detail.status}  
+        # for detail in EmployeeFormModel.objects.all()] 
+        # return Response(detail)
 
   
     def post(self, request): 
