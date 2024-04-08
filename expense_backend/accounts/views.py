@@ -37,7 +37,7 @@ class AccountTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'EMPLOYEE': settings.FRONTEND_URL + '/new_claim',
                 'FINANCE': settings.FRONTEND_URL + '/Finance',
                 'LINEMANAGER': settings.FRONTEND_URL + '/LineManager',
-                'ADMIN': settings.FRONTEND_URL + '/admin',
+                'ADMIN': settings.FRONTEND_URL + '/Admin',
         }
 
         return redirect_urls.get(permission, settings.FRONTEND_URL + '/Login')
