@@ -180,6 +180,10 @@ class UserInfoModel(models.Model):
     sort_code = models.CharField(max_length=8)
     tax_code = models.CharField(max_length=100)
     manager_id = models.IntegerField(null=True, blank=True)  # Assuming some users may not have managers
+    zip_code = models.CharField(max_length=6)
+    city = models.CharField(max_length=20)
+    country = models.CharField(max_length=20)
+
 
     @property
     def role(self):
