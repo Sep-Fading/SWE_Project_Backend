@@ -106,6 +106,13 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['user_firstname', 'user_lastname']
 
     objects = AccountManager()
+    
+    # Make sure to create a UserInfoModel for the account.
+    def save(self, *args, **kwargs):
+        is_new = self._state.adding
+        super().save(*args, **kwargs)
+        if is_new:
+            UserInfoModel.objects.create(user_id=self)
 
     def __str__(self):
         return self.email
