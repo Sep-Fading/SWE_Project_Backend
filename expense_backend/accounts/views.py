@@ -13,6 +13,7 @@ from rest_framework.authentication import get_authorization_header
 from rest_framework.views import APIView
 from .models import UserInfoModel
 from expense_backend.serializers import UserInfoModelSerializer
+from django.shortcuts import get_object_or_404
 
 # This takes care of serialization of our data from
 # AccountModel. Which is then used by the AccountTokenObtainPairView
@@ -147,4 +148,12 @@ class UserInfoListView(APIView):
         
         user_info_list = UserInfoModel.objects.all()
         serializer = UserInfoModelSerializer(user_info_list, many=True)
+        return Response(serializer.data)
+
+# ---- API VIEWS FOR ADMIN USER SPECIFIC ----
+class UserInfoSpecificView(APIView):
+    permission_classes=[IsAuthenticated]
+    def get(self, request, uid):
+        user_info = get_object_or_404(UserInfoModel, user_id=uid)
+        serializer = UserInfoModelSerializer(user_info)
         return Response(serializer.data)
