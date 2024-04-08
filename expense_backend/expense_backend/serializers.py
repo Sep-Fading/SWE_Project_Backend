@@ -6,6 +6,7 @@ from accounts.models import UserInfoModel
 # Creating serializers for our REST API 
 # This lets us define models we want to fetch
 # data from.
+
 class AccountModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountModel
@@ -17,11 +18,11 @@ class EmployeeFormModelSerializer(serializers.ModelSerializer):
         model = EmployeeFormModel
         fields = '__all__' 
 
-#This is the serializer for the employee claims form
+#This is the serializer for the UserInfo model.
 class UserInfoModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfoModel
-        fields = '__all__' 
+        fields = '__all__'
 
 
 
