@@ -162,7 +162,7 @@ class EmployeeFormModel(models.Model):
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
-    dateApproved = models.DateField()
+    dateApproved = models.DateField(null=True, blank=True,)
     comments = models.CharField(max_length=100,default="")
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):
