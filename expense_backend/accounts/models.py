@@ -191,5 +191,5 @@ class UserInfoModel(models.Model):
     @property
     def role(self):
         if self.user_id and hasattr(self.user_id, 'user_permission') and self.user_id.user_permission:
-            return self.user_id.user_permission.capitalize()
+            return self.user_id.user_permission
         return None

@@ -118,7 +118,6 @@ def set_token_cookies(response, tokens):
 def validate_session(request):
     
     # Auth header (use for debugging:
-    """
     auth_header = get_authorization_header(request).decode('utf-8')
     print(request.headers)
     print(auth_header)
@@ -127,7 +126,6 @@ def validate_session(request):
         print("Received token: ", token)
     else:
         print("No valid Auth header found!")
-    """
 
     user_permission = request.user.user_permission
     return JsonResponse({
@@ -144,18 +142,15 @@ def logout_view(request):
 
 # ---- API VIEWS FOR ADMIN PAGE ----
 class UserInfoListView(APIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        if request.user.user_permission != 'ADMIN':
-            return Response({'detail': 'You do not have permission to perform this query.'})
-        
         user_info_list = UserInfoModel.objects.all()
         serializer = UserInfoModelSerializer(user_info_list, many=True)
         return Response(serializer.data)
 
 # ---- API VIEWS FOR ADMIN USER SPECIFIC ----
 class UserInfoSpecificView(APIView):
-    permission_classes=[IsAuthenticated]
+    #permission_classes=[IsAuthenticated]
     def get(self, request, uid):
         user_info = get_object_or_404(UserInfoModel, user_id=uid)
         serializer = UserInfoModelSerializer(user_info)
