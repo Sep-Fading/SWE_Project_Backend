@@ -4,6 +4,7 @@ from .serializers import AccountModelSerializer
 from .serializers import EmployeeFormModelSerializer
 from accounts.models import EmployeeFormModel
 
+from django.db.models import Q
 from django.shortcuts import render 
 from rest_framework.views import APIView 
 from rest_framework.response import Response
@@ -56,6 +57,38 @@ class UpdateClaimStatus(APIView):
 
         serializer = EmployeeFormModelSerializer(claim)
         return Response(serializer.data)
+
+class GetClaims(APIView):
+    def get(self,request,role,current_user_id,current):
+        current = self.string_to_boolean(current) 
+        if role == 'EMPLOYEE':
+            if current:
+                claims = EmployeeFormModel.objects.filter(Q(user_id = current_user_id) & (Q(status='APPROVED') | Q(status='PENDING')|Q(status='REJECTEDF')|Q(status='REJECTED')))
+            else:
+                claims = EmployeeFormModel.objects.filter(Q(user_id = current_user_id) & Q(status = 'PROCESSED'))
+
+        elif role == 'LINEMANAGER':
+            if current:
+                claims = EmployeeFormModel.objects.filter(Q(lineManagerID = current_user_id) & (Q(status='REJECTEDF') | Q(status='PENDING')))
+            else:
+                claims = EmployeeFormModel.objects.filter(Q(lineManagerID = current_user_id) & (Q(status='REJECTED') | Q(status='APPROVED')|Q(status='PROCESSED')))
+        else:
+            if current:
+                claims = EmployeeFormModel.objects.filter(status='APPROVED')
+            else:
+                claims = EmployeeFormModel.objects.filter(Q(status='REJECTEDF')|Q(status= 'PROCESSED'))
+           
+        serializer  = EmployeeFormModelSerializer(claims,many = True)
+        return Response(serializer.data)
+
+    def string_to_boolean(string):
+        if string.lower() == 'true':
+            return True
+        elif string.lower() == 'false':
+            return False
+        else:
+            raise ValueError("String is not 'true' or 'false'.")
+
 
 class AcceptClaimView(APIView):
     def patch(self, request, claim_id):
