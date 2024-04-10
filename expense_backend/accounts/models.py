@@ -172,7 +172,6 @@ class EmployeeFormModel(models.Model):
                                        default='meal')
     description = models.CharField(max_length=500)
     receipt = models.ImageField(null=True, upload_to="receipts/")
-    acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
     dateApproved = models.DateField(null=True, blank=True,)
