@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from datetime import datetime
 
 # Here we are creating a view that can handle
 # API requests and return data in JSON format.
@@ -40,6 +41,21 @@ class EmployeeFormView(APIView):
             serializer.save() 
             return  Response(serializer.data) 
 
+class UpdateClaimStatus(APIView):
+    def patch(self,request,claim_id,claim_status,approved_by,approved_on,comment):
+        try:
+            claim = EmployeeFormModel.objects.get(claimID=claim_id)
+        except EmployeeFormModel.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        claim.status = claim_status
+        claim.approvedBy = approved_by
+        claim.dateApproved = datetime.strptime(approved_on, '%Y-%m-%d').date()
+        claim.comments = comment
+        claim.save()
+
+        serializer = EmployeeFormModelSerializer(claim)
+        return Response(serializer.data)
 
 class AcceptClaimView(APIView):
     def patch(self, request, claim_id):
