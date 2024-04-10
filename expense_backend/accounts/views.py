@@ -71,6 +71,7 @@ class AccountTokenObtainPairView(TokenObtainPairView):
                 'user_permission': user.user_permission,
                 'user_email': user.email,
                 'redirect_url': redirect_url,
+                'user_id': user.user_id,
         }
 
         # Making HttpOnly cookies for tokens instead of sending them 

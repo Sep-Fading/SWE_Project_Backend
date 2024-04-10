@@ -101,7 +101,7 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
                                        choices=PERMISSION_CHOICES,
                                        default='EMPLOYEE')
 
-    flagged_password_change = models.BooleanField(default=False, null=True)
+    #flagged_password_change = models.BooleanField(default=False, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -141,17 +141,6 @@ class EmployeeFormModel(models.Model):
         ('GIFT', 'gift'),
         ('OTHER', 'other'),
     )
-    CURRENCY_TYPE = (
-        ("GBP","£"),
-        ("USD","$"),
-        ("EUR","€"),
-        ("JPY","¥"),
-        ("MXN","₱"),
-        ("INR","₹"),
-        ("CHF","₣"),
-
-    )
-
 
     claimID = models.AutoField(primary_key=True)
 
@@ -168,7 +157,7 @@ class EmployeeFormModel(models.Model):
     lineManagerID = models.CharField(max_length=100, null=True)
     dateMade = models.DateField(default=timezone.now().date())
     amount =  models.FloatField(default=0.0)
-    currency = models.CharField(max_length=20,choices=CURRENCY_TYPE)
+    currency = models.CharField(max_length=100)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=500)
@@ -176,7 +165,8 @@ class EmployeeFormModel(models.Model):
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
-    dateApproved = models.DateField(null=True)
+    dateApproved = models.DateField(null=True, blank=True,)
+    approvedBy = models.CharField(max_length=100,default="")
     comments = models.CharField(max_length=100,default="")
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):
