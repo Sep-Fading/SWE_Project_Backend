@@ -188,9 +188,6 @@ class UserInfoModel(models.Model):
             related_name='userinfo',
     )
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.EmailField()
     phone_number = models.CharField(max_length=20)
     address = models.TextField()
     account_number = models.CharField(max_length=8)
@@ -206,4 +203,22 @@ class UserInfoModel(models.Model):
     def role(self):
         if self.user_id and hasattr(self.user_id, 'user_permission') and self.user_id.user_permission:
             return self.user_id.user_permission
+        return None
+    
+    @property
+    def first_name(self):
+        if self.user_id and hasattr(self.user_id, 'user_firstname') and self.user_id.user_firstname:
+            return self.user_id.user_firstname
+        return None
+
+    @property
+    def last_name(self):
+        if self.user_id and hasattr(self.user_id, 'user_lastname') and self.user_id.user_lastname:
+            return self.user_id.user_lastname
+        return None
+    
+    @property
+    def email(self):
+        if self.user_id and hasattr(self.user_id, 'email') and self.user_id.email:
+            return self.user_id.email
         return None
