@@ -1,6 +1,7 @@
 from os import walk
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -100,6 +101,8 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
                                        choices=PERMISSION_CHOICES,
                                        default='EMPLOYEE')
 
+    flagged_password_change = models.BooleanField(default=False, null=True)
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -136,7 +139,7 @@ class EmployeeFormModel(models.Model):
         ('MEAL', 'meal'),
         ('NIGHTSTAY', 'night stay'),
         ('GIFT', 'gift'),
-
+        ('OTHER', 'other'),
     )
 
     claimID = models.AutoField(primary_key=True)
@@ -151,14 +154,14 @@ class EmployeeFormModel(models.Model):
     )
 
 
-    lineManagerID = models.CharField(max_length=100)
-    dateMade = models.DateField()
+    lineManagerID = models.CharField(max_length=100, null=True)
+    dateMade = models.DateField(default=timezone.now().date())
     amount =  models.FloatField(default=0.0)
     currency = models.CharField(max_length=100)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
-    description = models.CharField(max_length=100)
-    receipt = models.ImageField(null=True, blank=True, upload_to="receipts/")
+    description = models.CharField(max_length=500)
+    receipt = models.ImageField(null=True, upload_to="receipts/")
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
