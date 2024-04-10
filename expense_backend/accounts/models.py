@@ -101,7 +101,7 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
                                        choices=PERMISSION_CHOICES,
                                        default='EMPLOYEE')
 
-    #flagged_password_change = models.BooleanField(default=False, null=True)
+    flagged_password_change = models.BooleanField(default=False, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
