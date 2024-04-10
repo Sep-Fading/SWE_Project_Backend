@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated 
 from rest_framework.authentication import get_authorization_header
 from rest_framework.views import APIView
-from .models import UserInfoModel
+from .models import AccountModel, UserInfoModel
 from expense_backend.serializers import UserInfoModelSerializer
 from django.shortcuts import get_object_or_404
 from expense_backend.serializers import AddressSerializer
@@ -90,7 +90,7 @@ def get_tokens_for_user(user):
 
 # Set tokens as HTTP Cookies with defined lifetimes.
 def set_token_cookies(response, tokens):
-    max_age = 3600 # 1 hour for access token
+    max_age = 3600*24 # 1 hour for access token
     refresh_max_age = 3600*24*30 # 30 days for refresh token
 
     response.set_cookie(
@@ -114,10 +114,10 @@ def set_token_cookies(response, tokens):
 # Session Validation Function - Used by frontend to 
 # ensure authorized page access.
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def validate_session(request):
     
-    # Auth header (use for debugging:
+    # Auth header (use for debugging):
     auth_header = get_authorization_header(request).decode('utf-8')
     print(request.headers)
     print(auth_header)
@@ -134,11 +134,19 @@ def validate_session(request):
     })
 
 # ---- LOG OUT FUNCTION ----
-def logout_view(request):
-    response = JsonResponse({'message': 'Logged out successfully'})
-    response.delete_cookie('access_token')
-    response.delete_cookie('refresh_token')
-    return response
+class LogoutAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        # Initialize the response with a message
+        response = Response({"message": "You've been logged out."})
+        
+        # List of specific cookie names to clear
+        cookies_to_clear = ['access_token', 'refresh_token', 'userRole']
+        
+        # Delete each specified cookie
+        for cookie_name in cookies_to_clear:
+            response.delete_cookie(cookie_name)
+        
+        return response
 
 # ---- API VIEWS FOR ADMIN PAGE ----
 class UserInfoListView(APIView):
@@ -152,12 +160,24 @@ class UserInfoListView(APIView):
 class UserInfoSpecificView(APIView):
     #permission_classes=[IsAuthenticated]
     def get(self, request, uid):
+        # Auth header (use for debugging):
+        """
+        auth_header = get_authorization_header(request).decode('utf-8')
+        print(request.headers)
+        print(auth_header)
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split('Bearer ')[1]
+            print("Received token: ", token)
+        else:
+            print("No valid Auth header found!")
+        """
         user_info = get_object_or_404(UserInfoModel, user_id=uid)
         serializer = UserInfoModelSerializer(user_info)
         return Response(serializer.data)
 
 # ---- UPDATE INFO ADMIN PAGE ----
 class UpdateUserInfo(APIView):
+    #permission_classes = [IsAuthenticated]
     def patch(self, request, uid, format=None):
         try:
             user_info = UserInfoModel.objects.get(user_id=uid)
@@ -170,3 +190,43 @@ class UpdateUserInfo(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, stats=status.HTTP_400_BAD_REQUEST)
+
+# ---- PASSWORD CHANGE ----
+class FlagPasswordChange(APIView):
+    def patch(self, request, uid):
+        try:
+            account = AccountModel.objects.get(user_id=uid)
+        except AccountModel.DoesNotExist:
+            return Response({"error" : "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        account.flagged_password_change = True
+        account.save()
+
+        return Response({'success':'password change flagged successfully'}, status=status.HTTP_200_OK)
+
+class ChangePassword(APIView):
+    def patch(self, request, uid):
+        new_password = request.data.get("new_password")
+
+        try:
+            user = AccountModel.objects.get(user_id=uid)
+        except AccountModel.DoesNotExist:
+            return Response({'error':'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        user.make_password(new_password)
+        user.save()
+
+        # Log the user out.
+        response = Response({"message": "You've been logged out."})
+        
+        # List of specific cookie names to clear
+        cookies_to_clear = ['access_token', 'refresh_token', 'userRole']
+        
+        # Delete each specified cookie
+        for cookie_name in cookies_to_clear:
+            response.delete_cookie(cookie_name)
+
+        return Response({'success':'Passowrd changed successfully'}, status=status.HTTP_200_OK)
+
+
+        
