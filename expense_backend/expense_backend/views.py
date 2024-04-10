@@ -81,7 +81,7 @@ class GetClaims(APIView):
         serializer  = EmployeeFormModelSerializer(claims,many = True)
         return Response(serializer.data)
 
-    def string_to_boolean(string):
+    def string_to_boolean(self,string):
         if string.lower() == 'true':
             return True
         elif string.lower() == 'false':
