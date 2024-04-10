@@ -166,6 +166,7 @@ class EmployeeFormModel(models.Model):
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
     dateApproved = models.DateField(null=True, blank=True,)
+    approvedBy = models.CharField(max_length=100,default="")
     comments = models.CharField(max_length=100,default="")
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):
