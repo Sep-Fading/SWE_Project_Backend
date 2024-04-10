@@ -142,6 +142,16 @@ class EmployeeFormModel(models.Model):
         ('OTHER', 'other'),
     )
 
+    CURRENCY_TYPE = (
+        ("GBP","£"),
+        ("USD","$"),
+        ("EUR","€"),
+        ("JPY","¥"),
+        ("MXN","₱"),
+        ("INR","₹"),
+        ("CHF","₣"),
+    )
+
     claimID = models.AutoField(primary_key=True)
 
     # Foreign Key linking so that userID in this table 
@@ -157,7 +167,7 @@ class EmployeeFormModel(models.Model):
     lineManagerID = models.CharField(max_length=100, null=True)
     dateMade = models.DateField(default=timezone.now().date())
     amount =  models.FloatField(default=0.0)
-    currency = models.CharField(max_length=100)
+    currency = models.CharField(max_length=10, choices=CURRENCY_TYPE)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=500)
