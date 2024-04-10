@@ -21,6 +21,8 @@ from .views import EmployeeFormView
 from .views import AcceptClaimView
 from .views import RejectClaimView
 from .views import ApprovedClaimsListView
+from.views import UpdateClaimStatus
+from.views import GetClaims
 from .views import process_claim_status, rejectf_claim_status
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -37,5 +39,7 @@ urlpatterns = [
        path('api/approved/', ApprovedClaimsListView.as_view(),name='approved-form-view'),
     path('process_claim/<int:claim_id>/', process_claim_status, name='process_claim'),
     path('rejectf_claim/<int:claim_id>/', rejectf_claim_status, name='rejectf_claim'),
+    path('update-claim-status/<int:claim_id>/<str:claim_status>/<str:approved_by>/<str:approved_on>/<str:comment>/', UpdateClaimStatus.as_view(), name='update_claim_status'),
+    path('get-claims/<str:role>/<str:current>/<int:current_user_id>/',GetClaims.as_view(),name='get-claims')
 ]
 
