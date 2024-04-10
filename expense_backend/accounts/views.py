@@ -19,6 +19,26 @@ from expense_backend.serializers import BankDetailsSerializer
 from expense_backend.serializers import UserDetailSerializer
 from django.contrib.auth.hashers import make_password
 
+class EmployeeView(APIView):
+    def get(self, request, uid):
+        try:
+            user = UserInfoModel.objects.filter(manager_id=uid)
+        except UserInfoModel.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = UserInfoModelSerializer(user)
+        return Response(serializer.data)
+    
+class ManagerView(APIView):
+    def get(self, request):
+        try:
+            user = UserInfoModel.objects.get(role='LINEMANAGER')
+        except UserInfoModel.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = UserInfoModelSerializer(user)
+        return Response(serializer.data)
+
 # This takes care of serialization of our data from
 # AccountModel. Which is then used by the AccountTokenObtainPairView
 # to create a JSON response to be sent to the front end.
