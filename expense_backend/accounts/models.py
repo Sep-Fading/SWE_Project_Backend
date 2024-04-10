@@ -101,7 +101,7 @@ class AccountModel(AbstractBaseUser, PermissionsMixin):
                                        choices=PERMISSION_CHOICES,
                                        default='EMPLOYEE')
 
-    flagged_password_change = models.BooleanField(default=False)
+    flagged_password_change = models.BooleanField(default=False, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -193,7 +193,7 @@ class UserInfoModel(models.Model):
     account_number = models.CharField(max_length=8)
     sort_code = models.CharField(max_length=8)
     tax_code = models.CharField(max_length=100)
-    manager_id = models.IntegerField(null=True, blank=True)  # Assuming some users may not have managers
+    manager_id = models.IntegerField(null=True)  # Assuming some users may not have managers
     zip_code = models.CharField(max_length=10)
     city = models.CharField(max_length=20)
     country = models.CharField(max_length=20)
