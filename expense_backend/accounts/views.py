@@ -17,6 +17,7 @@ from django.shortcuts import get_object_or_404
 from expense_backend.serializers import AddressSerializer
 from expense_backend.serializers import BankDetailsSerializer
 from expense_backend.serializers import UserDetailSerializer
+from django.contrib.auth.hashers import make_password
 
 # This takes care of serialization of our data from
 # AccountModel. Which is then used by the AccountTokenObtainPairView
@@ -72,6 +73,7 @@ class AccountTokenObtainPairView(TokenObtainPairView):
                 'user_email': user.email,
                 'redirect_url': redirect_url,
                 'user_id': user.user_id,
+                'flagged_password_change': user.flagged_password_change,
         }
 
         # Making HttpOnly cookies for tokens instead of sending them 
@@ -201,6 +203,7 @@ class FlagPasswordChange(APIView):
             return Response({"error" : "User not found"}, status=status.HTTP_404_NOT_FOUND)
         
         account.flagged_password_change = True
+        account.password = make_password("abc.123")
         account.save()
 
         return Response({'success':'password change flagged successfully'}, status=status.HTTP_200_OK)
@@ -214,7 +217,7 @@ class ChangePassword(APIView):
         except AccountModel.DoesNotExist:
             return Response({'error':'User not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        user.make_password(new_password)
+        user.password = make_password(new_password)
         user.save()
 
         # Log the user out.
