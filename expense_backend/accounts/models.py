@@ -138,6 +138,17 @@ class EmployeeFormModel(models.Model):
         ('GIFT', 'gift'),
 
     )
+    CURRENCY_TYPE = (
+        ("GBP","£"),
+        ("USD","$"),
+        ("EUR","€"),
+        ("JPY","¥"),
+        ("MXN","₱"),
+        ("INR","₹"),
+        ("CHF","₣"),
+
+    )
+
 
     claimID = models.AutoField(primary_key=True)
 
@@ -154,7 +165,7 @@ class EmployeeFormModel(models.Model):
     lineManagerID = models.CharField(max_length=100)
     dateMade = models.DateField()
     amount =  models.FloatField(default=0.0)
-    currency = models.CharField(max_length=100)
+    currency = models.CharField(max_length=20,choices=CURRENCY_TYPE)
     typeClaim = models.CharField(max_length=20,choices=CLAIM_TYPE,
                                        default='meal')
     description = models.CharField(max_length=100)
@@ -162,7 +173,7 @@ class EmployeeFormModel(models.Model):
     acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
-    dateApproved = models.DateField(null=True, blank=True,)
+    dateApproved = models.DateField(null=True)
     comments = models.CharField(max_length=100,default="")
 #This model is to contain the information for each employee
 class UserInfoModel(models.Model):
