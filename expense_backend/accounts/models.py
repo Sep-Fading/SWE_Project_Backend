@@ -162,6 +162,7 @@ class EmployeeFormModel(models.Model):
             related_name='claims', # This lets us access a user's claim with user.claims
             null=True,
     )
+    claimedBy = models.CharField(max_length=100,default="")
 
 
     lineManagerID = models.CharField(max_length=100, null=True)
