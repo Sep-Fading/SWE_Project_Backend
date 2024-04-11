@@ -150,6 +150,10 @@ class EmployeeFormModel(models.Model):
         ("MXN","₱"),
         ("INR","₹"),
         ("CHF","₣"),
+        ("AUD","A$"),
+        ("CAD","C$"),
+        ("HKD","HK$"),
+        ("SGD","S$"),
     )
 
     claimID = models.AutoField(primary_key=True)
