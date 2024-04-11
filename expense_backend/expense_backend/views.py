@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from datetime import datetime
 
@@ -28,7 +28,16 @@ class AccountModelListCreate(generics.ListCreateAPIView):
 class EmployeeFormView(APIView): 
     
     serializer_class = EmployeeFormModelSerializer 
-  
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
     def get(self, request): 
         employee_forms = EmployeeFormModel.objects.all()
         serializer = EmployeeFormModelSerializer(employee_forms, many=True)
