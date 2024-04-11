@@ -162,6 +162,7 @@ class EmployeeFormModel(models.Model):
             related_name='claims', # This lets us access a user's claim with user.claims
             null=True,
     )
+    claimedBy = models.CharField(max_length=100,default="")
 
 
     lineManagerID = models.CharField(max_length=100, null=True)
@@ -172,7 +173,6 @@ class EmployeeFormModel(models.Model):
                                        default='meal')
     description = models.CharField(max_length=500)
     receipt = models.ImageField(null=True, upload_to="receipts/")
-    acknowledgement = models.BooleanField(default=False)
     status = models.CharField(max_length=20,choices=CLAIM_STATUS,
                                        default='PENDING')
     dateApproved = models.DateField(null=True, blank=True,)
