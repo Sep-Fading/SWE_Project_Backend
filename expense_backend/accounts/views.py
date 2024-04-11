@@ -214,6 +214,29 @@ class UpdateUserInfo(APIView):
         
         serializer = UserInfoModelSerializer(user_info, data=request.data, partial=True)
 
+        account_data = {k: request.data.pop(k) for k in ['first_name', 'last_name',
+                                                         'email'] if k in request.data}
+
+        # Update Account model if needed:
+        if account_data:
+            try: 
+                account = user_info.user_id
+            except AccountModel.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+            if 'first_name' in account_data:
+                account.user_firstname = account_data['first_name']
+            if 'last_name' in account_data:
+                account.user_lastname = account_data['last_name']
+            if 'email'in account_data:
+                account.email = account_data['email']
+
+            # Save updated AccountModel instance
+            account.save()
+
+        # Now do the rest.
+
         if (serializer.is_valid()):
             serializer.save()
             return Response(serializer.data)
