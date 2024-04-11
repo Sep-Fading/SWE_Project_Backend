@@ -7,6 +7,8 @@ from .views import UserInfoSpecificView
 from .views import UpdateUserInfo
 from .views import FlagPasswordChange
 from .views import ChangePassword
+from .views import EmployeeView
+from .views import ManagerView
 
 urlpatterns = [
         path('api/token/', AccountTokenObtainPairView.as_view(),
@@ -14,6 +16,8 @@ urlpatterns = [
         path('api/validate_session/', validate_session, name='validate_session'),
         path('api/user-info/', UserInfoListView.as_view(), name='user-info-list'),
         path('api/user-info/<int:uid>/', UserInfoSpecificView.as_view(), name='user-info-specific'),
+        path('api/employees-info/<int:uid>/', EmployeeView.as_view(), name='employee-view'),
+        path('api/managers-info/', ManagerView.as_view(), name='manager-view'),
         path('api/user-info/update/<int:uid>/', UpdateUserInfo.as_view(), name='update_user_info'),
         path('api/user-info/flag-password/<int:uid>/', FlagPasswordChange.as_view(), name='flagged-pw'),
         path('api/changepassword/', ChangePassword.as_view(), name='change-pw'),
